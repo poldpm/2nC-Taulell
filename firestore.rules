@@ -1,0 +1,19 @@
+rules_version = '2';
+
+// Només els comptes d'aquesta llista poden veure i editar el taulell.
+// Canvia el correu pel teu (i, si vols, afegeix-hi el compte que facis servir a l'ordinador del projector).
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function autoritzat() {
+      return request.auth != null
+        && request.auth.token.email_verified == true
+        && request.auth.token.email in [
+          'EL_TEU_CORREU@gmail.com'
+        ];
+    }
+
+    match /taulells/{taulellId} {
+      allow read, write: if autoritzat();
+    }
+  }
+}

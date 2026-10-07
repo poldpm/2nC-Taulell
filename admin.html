@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Panell del Taulell 2n C</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>🧑‍🏫 Taulell 2n C <span class="sub">Panell de control</span></h1>
+    <span id="estat" class="estat"></span>
+    <div class="topbar-actions">
+      <button id="btn-negre" class="btn" title="Deixa de projectar sense apagar res">⬛ Pantalla en negre</button>
+      <a class="btn" href="taulell.html" target="_blank" rel="noopener">↗ Obrir el taulell</a>
+      <span id="usuari" class="usuari"></span>
+    </div>
+  </header>
+
+  <div id="avis-mode" class="avis-mode" hidden>
+    <strong>Mode prova:</strong> les dades només es guarden en aquest navegador. Per sincronitzar-ho amb
+    l'ordinador del projector, segueix el pas 1 del <code>README.md</code> (Firebase).
+  </div>
+
+  <section id="login" class="login" hidden>
+    <h2>Inicia sessió per gestionar el taulell</h2>
+    <button id="btn-login" class="btn primari">Inicia sessió amb Google</button>
+  </section>
+
+  <main id="app" class="app" hidden>
+    <section class="col-moduls">
+      <h2>Mòduls del taulell</h2>
+      <div id="moduls"></div>
+      <div class="afegir">
+        <select id="nou-tipus"></select>
+        <button id="btn-afegir" class="btn">+ Afegir mòdul</button>
+      </div>
+    </section>
+
+    <aside class="col-dreta">
+      <div class="card">
+        <h2>Vista prèvia</h2>
+        <div class="preview-wrap"><iframe id="preview" src="taulell.html?preview" title="Vista prèvia del taulell"></iframe></div>
+      </div>
+      <div class="card">
+        <h2>Aparença i encaix a la pissarra</h2>
+        <div id="ajustos" class="ajustos"></div>
+      </div>
+      <div class="card">
+        <h2>Còpies de seguretat</h2>
+        <p class="ajuda">Cada canvi es desa sol. Aquí pots recuperar una versió anterior (desades en aquest ordinador) o descarregar-ne una còpia.</p>
+        <div class="row">
+          <select id="historial" class="grow"></select>
+          <button id="btn-restaurar" class="btn">Restaurar</button>
+        </div>
+        <div class="row">
+          <button id="btn-exportar" class="btn">⬇ Descarregar còpia</button>
+          <label class="btn">⬆ Carregar còpia<input id="fitxer" type="file" accept="application/json" hidden></label>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <script type="module" src="js/admin.js"></script>
+</body>
+</html>

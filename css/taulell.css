@@ -1,0 +1,144 @@
+/* Taulell projectat. Pensat per a una pissarra blanca: fons fosc = menys llum = més contrast. */
+:root { --font: 'Andika', 'Comic Sans MS', system-ui, sans-serif; }
+
+body[data-theme="fosc"] { --bg: #000; --card: #15181f; --fg: #f4f6fb; --muted: #a9b0c0; }
+body[data-theme="clar"] { --bg: #fff; --card: #f1f3f8; --fg: #14171f; --muted: #545b6b; }
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font);
+  overflow: hidden;
+}
+body.projector { cursor: none; }
+/* "Pantalla en negre": no es projecta res, tant en tema fosc com clar. */
+body.negre { background: #000 !important; }
+body.negre #zona { visibility: hidden; }
+
+#zona {
+  position: absolute;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8em;
+  line-height: 1.25;
+}
+
+.titol {
+  font-size: 1.6em;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+.moduls {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 1), minmax(0, 1fr));
+  gap: 0.9em;
+  align-items: start;
+}
+
+.mod h2 {
+  margin: 0 0 0.4em;
+  font-size: 1.15em;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+/* Data i hora */
+.mod-rellotge { text-align: center; }
+.mod-rellotge .hora { font-size: 3em; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+.mod-rellotge .data { font-size: 1.2em; color: var(--muted); margin-top: 0.15em; }
+
+/* Avís */
+.avis {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  background: var(--c);
+  color: #111;
+  border-radius: 0.6em;
+  padding: 0.55em 0.75em;
+  font-size: 1.15em;
+  font-weight: 700;
+  white-space: pre-wrap;
+}
+.avis .emoji { font-size: 1.5em; }
+
+/* Tasques */
+.tasques {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45em;
+  counter-reset: tasca;
+}
+.tasca {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  background: var(--card);
+  border-left: 0.35em solid var(--c);
+  border-radius: 0.5em;
+  padding: 0.4em 0.6em;
+  font-size: 1.1em;
+  counter-increment: tasca;
+}
+.numerades .tasca::before {
+  content: counter(tasca);
+  flex: none;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 50%;
+  background: var(--c);
+  color: #111;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 0.85em;
+}
+.tasca .emoji { font-size: 1.35em; flex: none; }
+.tasca .txt { flex: 1; }
+.tasca.destacada { outline: 0.12em solid var(--c); font-weight: 700; }
+.tasca .estrella { flex: none; }
+.buit { margin: 0; font-size: 1.1em; color: var(--muted); }
+
+/* Encarregats */
+.encarregats { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.3em; }
+.encarregats li {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: center;
+  gap: 0.5em;
+  background: var(--card);
+  border-radius: 0.5em;
+  padding: 0.3em 0.6em;
+}
+.encarregats .emoji { font-size: 1.3em; }
+.encarregats .rol { color: var(--muted); }
+.encarregats .nom { font-weight: 700; text-align: right; }
+
+/* Text lliure */
+.text-lliure { margin: 0; white-space: pre-wrap; font-size: 1.05em; }
+
+/* Missatges de sistema (inici de sessió, errors) */
+#missatge {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: 1em;
+  text-align: center;
+  font-size: 3vh;
+  padding: 2em;
+  cursor: auto;
+}
+#missatge[hidden] { display: none; }
+#missatge p { margin: 0; }
+#missatge button { font: inherit; padding: 0.5em 1em; border-radius: 0.5em; border: 0; background: #4da3ff; color: #000; cursor: pointer; }
+
+#offline { position: fixed; right: 0.5vh; bottom: 0.5vh; font-size: 2vh; opacity: 0.5; }
