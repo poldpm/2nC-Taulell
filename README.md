@@ -15,6 +15,7 @@ Els canvis es desen sols i apareixen al projector en un o dos segons.
 | ✅ Tasques | La llista "Quan acabis, pots fer...". Amb icona, color, numeració (ordre recomanat), ⭐ destacar i 👁 amagar sense esborrar. |
 | 📣 Avís destacat | Un missatge gran amb color ("Avui hi ha piscina!"). |
 | 🧑‍🤝‍🧑 Encarregats | Qui fa cada feina de classe. |
+| 📅 Agenda de la setmana | Què passa d'extraordinari cada dia (de dilluns a divendres). Avui queda destacat i els dies passats, més apagats. |
 | 🕒 Data i hora | Rellotge i data en català. |
 | 📝 Text lliure | Qualsevol altra cosa. |
 

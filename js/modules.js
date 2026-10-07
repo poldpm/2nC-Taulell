@@ -26,7 +26,8 @@ const EMOJIS = [
 
 const DIES = ['diumenge', 'dilluns', 'dimarts', 'dimecres', 'dijous', 'divendres', 'dissabte'];
 const MESOS = ['gener', 'febrer', 'març', 'abril', 'maig', 'juny', 'juliol', 'agost', 'setembre', 'octubre', 'novembre', 'desembre'];
-const deMes = (m) => (/^[aeiou]/.test(MESOS[m]) ? "d'" : 'de ') + MESOS[m];
+const DIES_FEINERS = ['Dilluns', 'Dimarts', 'Dimecres', 'Dijous', 'Divendres'];
+const deMes =(m) => (/^[aeiou]/.test(MESOS[m]) ? "d'" : 'de ') + MESOS[m];
 
 export const TYPES = {
   rellotge: {
@@ -159,6 +160,68 @@ export const TYPES = {
           rowControls(d.items, i, ctx, it.rol),
         ))),
         h('button', { class: 'btn', onclick: () => { d.items.push({ id: uid(), emoji: '⭐', rol: '', nom: '' }); ctx.change(true); } }, '+ Afegir encàrrec'),
+      );
+    },
+  },
+
+  agenda: {
+    name: 'Agenda de la setmana',
+    icon: '📅',
+    create: () => ({ title: 'Aquesta setmana', data: { dies: [[], [], [], [], []], amagarBuits: false, amagarPassats: false } }),
+    render(mod, el) {
+      const avui = new Date().getDay() - 1; // 0 = dilluns ... 4 = divendres
+      const files = [];
+      mod.data.dies.forEach((items, i) => {
+        const fets = items.filter((it) => it.text.trim());
+        if (mod.data.amagarBuits && !fets.length) return;
+        if (mod.data.amagarPassats && avui >= 0 && avui <= 4 && i < avui) return;
+        const cls = 'dia' + (i === avui ? ' avui' : avui > i && avui <= 4 ? ' passat' : '');
+        files.push(h('li', { class: cls },
+          h('span', { class: 'nom-dia' }, DIES_FEINERS[i]),
+          h('span', { class: 'events' }, fets.length
+            ? fets.map((it) => h('span', { class: 'event' }, it.emoji && h('span', { class: 'emoji' }, it.emoji), it.text))
+            : h('span', { class: 'res' }, '—')),
+        ));
+      });
+      // El dia destacat s'actualitza sol perquè el taulell es recarrega cada matinada.
+      if (files.length) el.append(h('ul', { class: 'agenda' }, files));
+    },
+    editor(mod, ctx) {
+      const d = mod.data;
+      return h('div', { class: 'stack' },
+        h('div', { class: 'row' },
+          checkbox('Amagar els dies sense res', d.amagarBuits, (v) => { d.amagarBuits = v; ctx.change(); }),
+          checkbox('Amagar els dies que ja han passat', d.amagarPassats, (v) => { d.amagarPassats = v; ctx.change(); }),
+        ),
+        d.dies.map((items, i) => {
+          const key = `${mod.id}-dia${i}`;
+          const nou = h('input', {
+            class: 'grow', placeholder: '+ Què passa aquest dia? (prem Enter)', dataset: { focusKey: key },
+            onkeydown: (e) => {
+              if (e.key !== 'Enter' || !nou.value.trim()) return;
+              items.push({ id: uid(), emoji: '📌', text: nou.value.trim() });
+              ctx.change(true, key);
+            },
+          });
+          return h('div', { class: 'dia-editor' },
+            h('strong', {}, DIES_FEINERS[i]),
+            h('div', { class: 'items' }, items.map((it, j) => h('div', { class: 'item' },
+              emojiButton(it.emoji, (e) => { it.emoji = e; ctx.change(true); }),
+              h('input', { class: 'grow', value: it.text, oninput: (e) => { it.text = e.target.value; ctx.change(); } }),
+              rowControls(items, j, ctx, it.text),
+            ))),
+            h('div', { class: 'row' }, nou),
+          );
+        }),
+        h('div', { class: 'row' },
+          h('button', {
+            class: 'btn', onclick: () => {
+              if (!confirm('Segur que vols buidar tota la setmana per començar-ne una de nova?')) return;
+              d.dies = [[], [], [], [], []];
+              ctx.change(true);
+            },
+          }, '🧽 Buidar la setmana'),
+        ),
       );
     },
   },

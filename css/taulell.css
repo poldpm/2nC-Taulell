@@ -142,3 +142,23 @@ body.negre #zona { visibility: hidden; }
 #missatge button { font: inherit; padding: 0.5em 1em; border-radius: 0.5em; border: 0; background: #4da3ff; color: #000; cursor: pointer; }
 
 #offline { position: fixed; right: 0.5vh; bottom: 0.5vh; font-size: 2vh; opacity: 0.5; }
+
+/* Agenda de la setmana */
+.agenda { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.3em; }
+.agenda .dia {
+  display: grid;
+  grid-template-columns: 5.2em 1fr;
+  gap: 0.5em;
+  align-items: start;
+  background: var(--card);
+  border-radius: 0.5em;
+  padding: 0.35em 0.6em;
+}
+.agenda .nom-dia { font-weight: 700; color: var(--muted); }
+.agenda .events { display: flex; flex-direction: column; gap: 0.15em; }
+.agenda .event .emoji { margin-right: 0.35em; }
+.agenda .res { color: var(--muted); }
+.agenda .avui { outline: 0.12em solid #ffd23f; }
+.agenda .avui .nom-dia { color: #ffd23f; }
+.agenda .passat { opacity: 0.45; }
+body[data-theme="clar"] .agenda .avui .nom-dia { color: #a87a00; }

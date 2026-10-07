@@ -175,3 +175,6 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); ou
 .range { display: flex; gap: 0.5rem; align-items: center; }
 .range input { flex: 1; padding: 0; }
 .range output { width: 3.2rem; text-align: right; font-variant-numeric: tabular-nums; font-size: 0.9rem; }
+
+.dia-editor { display: grid; gap: 0.3rem; padding: 0.5rem 0; border-top: 1px solid var(--line); }
+.dia-editor .row { margin-top: 0; }

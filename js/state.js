@@ -40,6 +40,9 @@ export function normalize(raw) {
       const base = TYPES[m.type].create();
       const data = { ...base.data, ...(m.data || {}) };
       if (Array.isArray(data.items)) data.items = data.items.map((it) => ({ id: uid(), ...it }));
+      if (Array.isArray(data.dies)) {
+        data.dies = [0, 1, 2, 3, 4].map((i) => (Array.isArray(data.dies[i]) ? data.dies[i] : []).map((it) => ({ id: uid(), ...it })));
+      }
       return {
         id: m.id || uid(),
         type: m.type,
