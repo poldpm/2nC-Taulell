@@ -128,7 +128,7 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); ou
 .items { display: grid; gap: 0.35rem; }
 .item { display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: center; }
 .item.amagat > input { color: var(--muted); text-decoration: line-through; }
-.item select { max-width: 8.5rem; }
+.item select { max-width: 11rem; }
 .controls { display: inline-flex; }
 
 .afegir { display: flex; gap: 0.5rem; margin-top: 1rem; }
@@ -178,3 +178,8 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); ou
 
 .dia-editor { display: grid; gap: 0.3rem; padding: 0.5rem 0; border-top: 1px solid var(--line); }
 .dia-editor .row { margin-top: 0; }
+
+.llegenda-editor { border-top: 1px solid var(--line); padding-top: 0.5rem; display: grid; gap: 0.4rem; }
+.llegenda-editor summary { cursor: pointer; font-weight: 600; color: var(--muted); }
+.llegenda-editor[open] { gap: 0.5rem; }
+.llegenda-editor > .btn { justify-self: start; }

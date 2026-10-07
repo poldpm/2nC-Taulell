@@ -162,3 +162,8 @@ body.negre #zona { visibility: hidden; }
 .agenda .avui .nom-dia { color: #ffd23f; }
 .agenda .passat { opacity: 0.45; }
 body[data-theme="clar"] .agenda .avui .nom-dia { color: #a87a00; }
+
+/* Llegenda de colors de les tasques */
+.llegenda { list-style: none; margin: 0 0 0.5em; padding: 0; display: flex; flex-wrap: wrap; gap: 0.35em 0.9em; font-size: 0.9em; }
+.llegenda li { display: flex; align-items: center; gap: 0.35em; }
+.llegenda li::before { content: ''; width: 0.8em; height: 0.8em; border-radius: 50%; background: var(--c); }

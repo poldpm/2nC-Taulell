@@ -85,9 +85,26 @@ export const TYPES = {
   tasques: {
     name: 'Tasques ("Quan acabis...")',
     icon: '✅',
-    create: () => ({ title: 'Quan acabis, pots fer...', data: { numerades: true, items: [] } }),
+    create: () => ({
+      title: 'Quan acabis, pots fer...',
+      data: {
+        numerades: true,
+        items: [],
+        mostrarLlegenda: true,
+        llegenda: [
+          { id: uid(), color: 'blau', text: 'Matemàtiques' },
+          { id: uid(), color: 'vermell', text: 'Català' },
+          { id: uid(), color: 'verd', text: 'Medi' },
+          { id: uid(), color: 'taronja', text: 'Anglès' },
+        ],
+      },
+    }),
     render(mod, el) {
       const items = mod.data.items.filter((i) => i.visible && i.text.trim());
+      const llegenda = mod.data.llegenda.filter((l) => l.text.trim());
+      if (mod.data.mostrarLlegenda && llegenda.length) {
+        el.append(h('ul', { class: 'llegenda' }, llegenda.map((l) => h('li', { style: `--c:${colorHex(l.color)}` }, l.text))));
+      }
       if (!items.length) {
         el.append(h('p', { class: 'buit' }, 'Cap tasca pendent 🎉'));
         return;
@@ -119,12 +136,22 @@ export const TYPES = {
         h('div', { class: 'items' }, d.items.map((it, i) => h('div', { class: 'item' + (it.visible ? '' : ' amagat') },
           emojiButton(it.emoji, (e) => { it.emoji = e; ctx.change(true); }),
           h('input', { class: 'grow', value: it.text, placeholder: 'Escriu la tasca…', oninput: (e) => { it.text = e.target.value; ctx.change(); } }),
-          colorSelect(it.color, (c) => { it.color = c; ctx.change(); }),
+          colorSelect(it.color, (c) => { it.color = c; ctx.change(); }, d.llegenda),
           toggle('⭐', it.destacada, 'Destacar', (v) => { it.destacada = v; ctx.change(true); }),
           toggle('👁', it.visible, 'Visible al taulell (si l\'apagues, queda guardada però no es projecta)', (v) => { it.visible = v; ctx.change(true); }),
           rowControls(d.items, i, ctx, it.text),
         ))),
         h('div', { class: 'row' }, nou),
+        h('details', { class: 'llegenda-editor' },
+          h('summary', {}, 'Llegenda de colors'),
+          checkbox('Mostrar la llegenda al taulell', d.mostrarLlegenda, (v) => { d.mostrarLlegenda = v; ctx.change(); }),
+          h('div', { class: 'items' }, d.llegenda.map((l, i) => h('div', { class: 'item' },
+            colorSelect(l.color, (c) => { l.color = c; ctx.change(true); }),
+            h('input', { class: 'grow', value: l.text, placeholder: 'Assignatura', onchange: () => ctx.change(true), oninput: (e) => { l.text = e.target.value; ctx.change(); } }),
+            rowControls(d.llegenda, i, ctx, l.text),
+          ))),
+          h('button', { class: 'btn', onclick: () => { d.llegenda.push({ id: uid(), color: 'gris', text: '' }); ctx.change(true); } }, '+ Afegir color'),
+        ),
       );
     },
   },
@@ -267,9 +294,12 @@ function toggle(icon, on, title, onChange) {
   }, icon);
 }
 
-function colorSelect(value, onChange) {
+// Si hi ha llegenda, cada color mostra el nom de l'assignatura (p. ex. "🔵 Matemàtiques").
+function colorSelect(value, onChange, llegenda = []) {
+  const nom = (k) => llegenda.find((l) => l.color === k && l.text.trim())?.text;
   return h('select', { title: 'Color', onchange: (e) => onChange(e.target.value) },
-    Object.entries(COLORS).map(([k, c]) => h('option', { value: k, selected: k === value }, c.label)),
+    Object.entries(COLORS).map(([k, c]) => h('option', { value: k, selected: k === value },
+      nom(k) ? `${c.label.split(' ')[0]} ${nom(k)}` : c.label)),
   );
 }
 
