@@ -82,6 +82,18 @@ Per sortir del mode quiosc: `Alt+F4`.
 El taulell es recarrega sol cada matinada a les 5h, ajusta la lletra perquè tot hi càpiga i,
 si cau la connexió, continua mostrant l'últim contingut (amb una petita 📡 a la cantonada).
 
+## Instal·lar-ho com a aplicació
+
+El panell i el taulell es poden instal·lar com a aplicacions, amb la seva icona, sense barra del navegador:
+
+- **Panell (el teu ordinador)**: obre `admin.html` amb Chrome o Edge i clica la icona d'instal·lar
+  que surt a la dreta de la barra d'adreces (o menú ⋮ → *Desa i comparteix* → *Instal·la la pàgina com a aplicació*).
+  Quedarà a l'escriptori i al menú d'inici com a **Panell 2n C**.
+- **Taulell (el miniordinador)**: fes el mateix amb `taulell.html`. S'instal·la com a **Taulell 2n C** i s'obre a
+  pantalla completa. A `chrome://apps` (clic dret → *Obre a l'inici de sessió*) o a Edge (*Aplicacions* →
+  *Inicia automàticament*) pots fer que s'obri sol en engegar l'ordinador.
+- **Mòbil / tauleta**: menú del navegador → *Afegeix a la pantalla d'inici*.
+
 ## Afegir mòduls nous
 
 Cada mòdul és una entrada a `TYPES` dins de [`js/modules.js`](js/modules.js), amb la seva funció per pintar-lo
@@ -101,4 +113,5 @@ js/modules.js     Definició dels mòduls
 js/admin.js       Lògica del panell
 js/display.js     Lògica del taulell
 firestore.rules   Qui pot llegir i escriure
+manifest-*.webmanifest, sw.js, icons/   Instal·lació com a aplicació
 ```

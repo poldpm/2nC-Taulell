@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3b82f6"/>
+      <stop offset="1" stop-color="#1e40af"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#bg)"/>
+  <g transform="translate(256 256) scale(.78) translate(-256 -256)">
+  <!-- pissarra -->
+  <rect x="104" y="112" width="304" height="268" rx="28" fill="#fff"/>
+  <!-- tasques: blau, vermell, verd -->
+  <circle cx="152" cy="172" r="20" fill="#4da3ff"/>
+  <rect x="188" y="160" width="176" height="24" rx="12" fill="#cbd5e1"/>
+  <circle cx="152" cy="246" r="20" fill="#ff5c5c"/>
+  <rect x="188" y="234" width="140" height="24" rx="12" fill="#cbd5e1"/>
+  <circle cx="152" cy="320" r="20" fill="#4cd27a"/>
+  <rect x="188" y="308" width="160" height="24" rx="12" fill="#cbd5e1"/>
+  <path d="M142 172l7 7 13-14" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- peus del taulell -->
+  <rect x="236" y="380" width="40" height="34" fill="#fff" opacity=".85"/>
+  <rect x="176" y="406" width="160" height="18" rx="9" fill="#fff" opacity=".85"/>
+  <!-- estrella -->
+  <path d="M404 92l12 26 28 4-20 20 5 28-25-13-25 13 5-28-20-20 28-4z" fill="#ffd23f"/>
+  </g>
+</svg>
