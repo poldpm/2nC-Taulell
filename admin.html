@@ -44,8 +44,13 @@
     </section>
 
     <aside class="col-dreta">
-      <div class="card">
-        <h2>Vista prèvia</h2>
+      <div id="card-preview" class="card card-preview">
+        <div class="card-head">
+          <h2>Vista prèvia</h2>
+          <button id="btn-reordenar" class="btn petit" hidden>↺ Recol·locar</button>
+          <button id="btn-ampliar" class="btn petit">⤢ Ampliar</button>
+        </div>
+        <p id="ajuda-lliure" class="ajuda" hidden>✋ Arrossega els mòduls per moure'ls i estira la cantonada de baix a la dreta per canviar-ne la mida.</p>
         <div class="preview-wrap"><iframe id="preview" src="taulell.html?preview" title="Vista prèvia del taulell"></iframe></div>
       </div>
       <div class="card">

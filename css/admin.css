@@ -183,3 +183,15 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); ou
 .llegenda-editor summary { cursor: pointer; font-weight: 600; color: var(--muted); }
 .llegenda-editor[open] { gap: 0.5rem; }
 .llegenda-editor > .btn { justify-self: start; }
+
+.card-head { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem; }
+.card-head h2 { margin: 0; margin-right: auto; }
+/* Vista prèvia ampliada per col·locar els mòduls còmodament */
+.card-preview.gran {
+  position: fixed;
+  z-index: 100;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+  width: min(94vw, calc((94vh - 7rem) * 16 / 9));
+  box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.55);
+}

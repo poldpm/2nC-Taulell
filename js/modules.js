@@ -275,7 +275,7 @@ export function newTask(text) {
 
 export function newModule(type) {
   const base = TYPES[type].create();
-  return { id: uid(), type, visible: true, title: base.title, data: base.data };
+  return { id: uid(), type, visible: true, title: base.title, data: base.data, layout: null };
 }
 
 // ---- Petits components per als editors ----

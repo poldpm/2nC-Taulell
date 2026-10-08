@@ -84,8 +84,36 @@ new ResizeObserver(([entry]) => {
   entry.target.style.setProperty('--k', entry.contentRect.width / 1920);
 }).observe(document.querySelector('.preview-wrap'));
 addEventListener('message', (e) => {
-  if (e.origin === location.origin && e.data?.type === 'taulell-preview-ready' && state) pushPreview();
+  if (e.origin !== location.origin || !state) return;
+  const msg = e.data || {};
+  if (msg.type === 'taulell-preview-ready') pushPreview();
+  // La mestra ha mogut o redimensionat un mòdul a la vista prèvia.
+  if (msg.type === 'taulell-layout') {
+    const mod = state.modules.find((m) => m.id === msg.id);
+    if (mod) { mod.layout = msg.layout; change(); }
+  }
+  // Pas a disposició lliure: cada mòdul comença allà on era en la disposició automàtica.
+  if (msg.type === 'taulell-measured') {
+    state.modules.forEach((m) => { if (!m.layout && msg.layouts[m.id]) m.layout = msg.layouts[m.id]; });
+    state.settings.disposicio = 'lliure';
+    change(true);
+  }
 });
+
+function setDisposicio(value) {
+  if (value === 'lliure') {
+    $('preview').contentWindow.postMessage({ type: 'taulell-measure' }, location.origin);
+  } else {
+    state.settings.disposicio = value;
+    change(true);
+  }
+}
+
+$('btn-ampliar').onclick = () => {
+  const gran = $('card-preview').classList.toggle('gran');
+  $('btn-ampliar').textContent = gran ? '✕ Tancar' : '⤢ Ampliar';
+};
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && $('card-preview').classList.contains('gran')) $('btn-ampliar').click(); });
 
 // ---------- Renderitzat del panell ----------
 
@@ -94,6 +122,8 @@ function renderAll(focusKey = null) {
   renderSettings();
   $('btn-negre').classList.toggle('actiu', state.settings.negre);
   $('btn-negre').textContent = state.settings.negre ? '▶ Tornar a projectar' : '⬛ Pantalla en negre';
+  $('ajuda-lliure').hidden = state.settings.disposicio !== 'lliure';
+  $('btn-reordenar').hidden = state.settings.disposicio !== 'lliure';
   if (focusKey) document.querySelector(`[data-focus-key="${focusKey}"]`)?.focus();
 }
 
@@ -135,6 +165,7 @@ function renderModules() {
 }
 
 const SETTINGS_FORM = [
+  { key: 'disposicio', label: 'Disposició', type: 'select', onChange: setDisposicio, options: { columna: 'Automàtica (un sota l\'altre)', lliure: 'Lliure (arrossega els mòduls)' } },
   { key: 'titol', label: 'Títol a dalt de tot', type: 'text' },
   { key: 'theme', label: 'Tema', type: 'select', options: { fosc: 'Fosc (recomanat a la pissarra)', clar: 'Clar' } },
   { key: 'alineacio', label: 'Posició', type: 'select', options: { esquerra: 'A l\'esquerra', centre: 'Al centre', dreta: 'A la dreta' } },
@@ -151,7 +182,13 @@ function renderSettings() {
   $('ajustos').replaceChildren(...SETTINGS_FORM.map((f) => {
     let input;
     if (f.type === 'select') {
-      input = h('select', { onchange: (e) => { s[f.key] = f.number ? Number(e.target.value) : e.target.value; change(); } },
+      input = h('select', {
+        onchange: (e) => {
+          if (f.onChange) return f.onChange(e.target.value);
+          s[f.key] = f.number ? Number(e.target.value) : e.target.value;
+          change();
+        },
+      },
         Object.entries(f.options).map(([v, l]) => h('option', { value: v, selected: String(s[f.key]) === v }, l)));
     } else if (f.type === 'range') {
       const out = h('output', {}, `${s[f.key]}${f.unit}`);
@@ -176,6 +213,13 @@ function setupStaticUi() {
     state.modules.push(newModule($('nou-tipus').value));
     change(true);
     $('moduls').lastElementChild?.scrollIntoView({ behavior: 'smooth' });
+  };
+  $('btn-reordenar').onclick = () => {
+    if (!confirm('Vols tornar a col·locar tots els mòduls un sota l\'altre (com a la disposició automàtica)?')) return;
+    state.settings.disposicio = 'columna';
+    state.modules.forEach((m) => { m.layout = null; });
+    pushPreview();
+    setTimeout(() => setDisposicio('lliure'), 300);
   };
   $('btn-negre').onclick = () => { state.settings.negre = !state.settings.negre; change(true); };
   $('btn-login').onclick = () => store.signIn().catch((e) => alert(e.message));

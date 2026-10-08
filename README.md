@@ -21,7 +21,11 @@ Els canvis es desen sols i apareixen al projector en un o dos segons.
 
 Pots tenir més d'un mòdul del mateix tipus, ordenar-los, amagar-los i triar on es col·loquen
 (esquerra/centre/dreta, amplada, marges i mida de lletra) per encaixar exactament amb la zona
-de la pissarra on apunta el projector. El botó **⬛ Pantalla en negre** deixa de projectar sense tocar res.
+de la pissarra on apunta el projector.
+
+**Disposició lliure:** a *Aparença*, posa *Disposició → Lliure*, prem **⤢ Ampliar** a la vista prèvia i
+arrossega cada mòdul on vulguis; estira la cantonada blava per canviar-ne la mida. La lletra de cada mòdul
+s'ajusta sola a la seva caixa. **↺ Recol·locar** els torna a posar un sota l'altre. El botó **⬛ Pantalla en negre** deixa de projectar sense tocar res.
 
 A *Còpies de seguretat* pots tornar a una versió anterior o descarregar-ne una còpia.
 

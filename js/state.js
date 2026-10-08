@@ -12,6 +12,7 @@ export const DEFAULT_SETTINGS = {
   margeLateral: 3,
   escala: 1,
   columnes: 1,
+  disposicio: 'columna', // columna (automàtica) | lliure (cada mòdul on el posa la mestra)
   negre: false, // pantalla en negre (no es projecta res)
 };
 
@@ -29,6 +30,12 @@ export function defaultState() {
     settings: { ...DEFAULT_SETTINGS },
     modules: [newModule('rellotge'), avis, tasques],
   };
+}
+
+// Posició d'un mòdul en disposició lliure, en % de l'àrea del taulell.
+function validLayout(l) {
+  if (!l || !['x', 'y', 'w', 'h'].every((k) => Number.isFinite(l[k]))) return null;
+  return { x: l.x, y: l.y, w: l.w, h: l.h };
 }
 
 export function normalize(raw) {
@@ -49,6 +56,7 @@ export function normalize(raw) {
         visible: m.visible !== false,
         title: typeof m.title === 'string' ? m.title : base.title,
         data,
+        layout: validLayout(m.layout),
       };
     });
   return { v: 1, settings, modules };

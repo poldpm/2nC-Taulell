@@ -167,3 +167,20 @@ body[data-theme="clar"] .agenda .avui .nom-dia { color: #a87a00; }
 .llegenda { list-style: none; margin: 0 0 0.5em; padding: 0; display: flex; flex-wrap: wrap; gap: 0.35em 0.9em; font-size: 0.9em; }
 .llegenda li { display: flex; align-items: center; gap: 0.35em; }
 .llegenda li::before { content: ''; width: 0.8em; height: 0.8em; border-radius: 50%; background: var(--c); }
+
+/* Disposició lliure: cada mòdul a la seva posició */
+.moduls.lliure { display: block; position: relative; flex: 1; }
+.moduls.lliure > .mod { position: absolute; overflow: hidden; }
+/* Edició a la vista prèvia */
+.mod.editable { cursor: move; outline: 2px dashed rgba(77, 163, 255, 0.6); outline-offset: 2px; border-radius: 0.4em; touch-action: none; user-select: none; }
+.mod.editable:hover, .mod.editable.arrossegant { outline: 3px solid #4da3ff; z-index: 10; }
+.redimensiona {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 28px;
+  height: 28px;
+  cursor: nwse-resize;
+  background: linear-gradient(135deg, transparent 50%, #4da3ff 50%);
+  border-bottom-right-radius: 0.4em;
+}
