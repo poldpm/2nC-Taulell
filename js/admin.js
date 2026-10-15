@@ -168,18 +168,20 @@ const SETTINGS_FORM = [
   { key: 'disposicio', label: 'Disposició', type: 'select', onChange: setDisposicio, options: { columna: 'Automàtica (un sota l\'altre)', lliure: 'Lliure (arrossega els mòduls)' } },
   { key: 'titol', label: 'Títol a dalt de tot', type: 'text' },
   { key: 'theme', label: 'Tema', type: 'select', options: { fosc: 'Fosc (recomanat a la pissarra)', clar: 'Clar' } },
-  { key: 'alineacio', label: 'Posició', type: 'select', options: { esquerra: 'A l\'esquerra', centre: 'Al centre', dreta: 'A la dreta' } },
-  { key: 'amplada', label: 'Amplada', type: 'range', min: 15, max: 100, step: 1, unit: '%' },
-  { key: 'margeDalt', label: 'Marge de dalt', type: 'range', min: 0, max: 40, step: 1, unit: '%' },
-  { key: 'margeBaix', label: 'Marge de baix', type: 'range', min: 0, max: 40, step: 1, unit: '%' },
-  { key: 'margeLateral', label: 'Marge lateral', type: 'range', min: 0, max: 15, step: 0.5, unit: '%' },
+  { nomesColumna: true, key: 'alineacio', label: 'Posició', type: 'select', options: { esquerra: 'A l\'esquerra', centre: 'Al centre', dreta: 'A la dreta' } },
+  { nomesColumna: true, key: 'amplada', label: 'Amplada', type: 'range', min: 15, max: 100, step: 1, unit: '%' },
+  { nomesColumna: true, key: 'margeDalt', label: 'Marge de dalt', type: 'range', min: 0, max: 40, step: 1, unit: '%' },
+  { nomesColumna: true, key: 'margeBaix', label: 'Marge de baix', type: 'range', min: 0, max: 40, step: 1, unit: '%' },
+  { nomesColumna: true, key: 'margeLateral', label: 'Marge lateral', type: 'range', min: 0, max: 15, step: 0.5, unit: '%' },
   { key: 'escala', label: 'Mida de la lletra', type: 'range', min: 0.5, max: 2.5, step: 0.05, unit: '×' },
-  { key: 'columnes', label: 'Columnes', type: 'select', options: { 1: '1', 2: '2', 3: '3' }, number: true },
+  { nomesColumna: true, key: 'columnes', label: 'Columnes', type: 'select', options: { 1: '1', 2: '2', 3: '3' }, number: true },
 ];
 
 function renderSettings() {
   const s = state.settings;
-  $('ajustos').replaceChildren(...SETTINGS_FORM.map((f) => {
+  // En disposició lliure, la posició i la mida es decideixen arrossegant cada mòdul.
+  const camps = SETTINGS_FORM.filter((f) => !(f.nomesColumna && s.disposicio === 'lliure'));
+  $('ajustos').replaceChildren(...camps.map((f) => {
     let input;
     if (f.type === 'select') {
       input = h('select', {

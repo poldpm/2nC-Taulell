@@ -184,3 +184,6 @@ body[data-theme="clar"] .agenda .avui .nom-dia { color: #a87a00; }
   background: linear-gradient(135deg, transparent 50%, #4da3ff 50%);
   border-bottom-right-radius: 0.4em;
 }
+/* En disposició lliure el títol queda a dalt de tot, sense ocupar espai dels mòduls */
+body.lliure .titol { position: absolute; top: 1vh; left: 0; right: 0; pointer-events: none; }
+body.lliure .moduls.lliure { position: absolute; inset: 0; }

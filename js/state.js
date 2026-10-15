@@ -13,6 +13,7 @@ export const DEFAULT_SETTINGS = {
   escala: 1,
   columnes: 1,
   disposicio: 'columna', // columna (automàtica) | lliure (cada mòdul on el posa la mestra)
+  lliurePantalla: true, // les posicions lliures són en % de tota la pantalla (abans, de la zona)
   negre: false, // pantalla en negre (no es projecta res)
 };
 
@@ -40,7 +41,7 @@ function validLayout(l) {
 
 export function normalize(raw) {
   if (!raw || typeof raw !== 'object') return defaultState();
-  const settings = { ...DEFAULT_SETTINGS, ...(raw.settings || {}) };
+  const settings = { ...DEFAULT_SETTINGS, lliurePantalla: false, ...(raw.settings || {}) };
   const modules = (Array.isArray(raw.modules) ? raw.modules : [])
     .filter((m) => m && TYPES[m.type])
     .map((m) => {
@@ -59,5 +60,20 @@ export function normalize(raw) {
         layout: validLayout(m.layout),
       };
     });
+  if (!settings.lliurePantalla) {
+    modules.forEach((m) => { if (m.layout) m.layout = zonaToPantalla(m.layout, settings); });
+    settings.lliurePantalla = true;
+  }
   return { v: 1, settings, modules };
+}
+
+// Converteix una posició guardada en % de la zona (versió antiga) a % de tota la pantalla.
+function zonaToPantalla(l, s) {
+  const amp = Math.min(100, Math.max(10, s.amplada));
+  const left = s.alineacio === 'esquerra' ? 0 : s.alineacio === 'dreta' ? 100 - amp : (100 - amp) / 2;
+  const x0 = left + s.margeLateral;
+  const W = amp - 2 * s.margeLateral;
+  const H = 100 - s.margeDalt - s.margeBaix;
+  const r = (v) => Math.round(v * 2) / 2;
+  return { x: r(x0 + (l.x * W) / 100), y: r(s.margeDalt + (l.y * H) / 100), w: r((l.w * W) / 100), h: r((l.h * H) / 100) };
 }

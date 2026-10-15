@@ -24,7 +24,8 @@ Pots tenir més d'un mòdul del mateix tipus, ordenar-los, amagar-los i triar on
 de la pissarra on apunta el projector.
 
 **Disposició lliure:** a *Aparença*, posa *Disposició → Lliure*, prem **⤢ Ampliar** a la vista prèvia i
-arrossega cada mòdul on vulguis; estira la cantonada blava per canviar-ne la mida. La lletra de cada mòdul
+arrossega cada mòdul a qualsevol lloc de la imatge projectada; estira la cantonada blava per canviar-ne la mida.
+(En aquest mode, posició, amplada, marges i columnes no s'utilitzen: cada mòdul va on el poses.) La lletra de cada mòdul
 s'ajusta sola a la seva caixa. **↺ Recol·locar** els torna a posar un sota l'altre. El botó **⬛ Pantalla en negre** deixa de projectar sense tocar res.
 
 A *Còpies de seguretat* pots tornar a una versió anterior o descarregar-ne una còpia.

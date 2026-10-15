@@ -19,14 +19,20 @@ function render(state) {
   document.body.dataset.theme = s.theme;
   document.body.classList.toggle('negre', s.negre);
 
-  const amp = Math.min(100, Math.max(10, s.amplada));
-  zona.style.width = `${amp}%`;
-  zona.style.left = s.alineacio === 'esquerra' ? '0' : s.alineacio === 'dreta' ? `${100 - amp}%` : `${(100 - amp) / 2}%`;
-  zona.style.top = `${s.margeDalt}%`;
-  zona.style.bottom = `${s.margeBaix}%`;
-  zona.style.paddingInline = `${s.margeLateral}vw`;
-
   const lliure = s.disposicio === 'lliure';
+  document.body.classList.toggle('lliure', lliure);
+  if (lliure) {
+    // Disposició lliure: els mòduls es poden posar a qualsevol lloc de la imatge projectada.
+    Object.assign(zona.style, { width: '100%', left: '0', top: '0', bottom: '0', paddingInline: '0' });
+  } else {
+    const amp = Math.min(100, Math.max(10, s.amplada));
+    zona.style.width = `${amp}%`;
+    zona.style.left = s.alineacio === 'esquerra' ? '0' : s.alineacio === 'dreta' ? `${100 - amp}%` : `${(100 - amp) / 2}%`;
+    zona.style.top = `${s.margeDalt}%`;
+    zona.style.bottom = `${s.margeBaix}%`;
+    zona.style.paddingInline = `${s.margeLateral}vw`;
+  }
+
   const moduls = h('div', { class: 'moduls' + (lliure ? ' lliure' : ''), style: `--cols:${s.columnes}` });
   let n = 0;
   for (const mod of state.modules) {
@@ -125,21 +131,19 @@ function makeDraggable(sec, mod, moduls) {
   });
 }
 
-// Mesura on queden els mòduls en disposició automàtica, per passar a lliure sense que res es mogui.
+// Mesura on queden els mòduls en disposició automàtica (en % de tota la pantalla),
+// per passar a lliure sense que res es mogui.
 function measureLayouts() {
-  const moduls = zona.querySelector('.moduls');
-  if (!moduls) return {};
-  const mr = moduls.getBoundingClientRect();
-  const zr = zona.getBoundingClientRect();
-  const height = zr.bottom - mr.top;
   const out = {};
-  moduls.querySelectorAll(':scope > .mod').forEach((sec) => {
+  zona.querySelectorAll('.moduls > .mod').forEach((sec) => {
     const r = sec.getBoundingClientRect();
+    const w = round((r.width / innerWidth) * 100);
+    const hh = clamp(round((r.height / innerHeight) * 100) + 1, 5, 100);
     out[sec.dataset.id] = {
-      x: round(((r.left - mr.left) / mr.width) * 100),
-      y: round(((r.top - mr.top) / height) * 100),
-      w: round((r.width / mr.width) * 100),
-      h: clamp(round((r.height / height) * 100) + 1, 5, 100),
+      x: clamp(round((r.left / innerWidth) * 100), 0, 100 - w),
+      y: clamp(round((r.top / innerHeight) * 100), 0, 100 - hh),
+      w,
+      h: hh,
     };
   });
   return out;
