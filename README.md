@@ -32,6 +32,9 @@ s'ajusta sola a la seva caixa. **↺ Recol·locar** els torna a posar un sota l'
 desapareixen sols (p. ex. cada dimarts a les 15:55, «ALANA CAP A PORTERIA!» durant 10 minuts). Poden repetir-se
 cada setmana els dies que triïs o sortir un sol dia; es poden pausar i provar a la vista prèvia.
 
+**🕗 Horari de projecció:** fora de l'horari (per defecte, de dilluns a divendres de 08:30 a 16:45) el taulell
+es posa en negre sol, i els caps de setmana es queda en negre. Es pot canviar o desactivar des del panell.
+
 A *Còpies de seguretat* pots tornar a una versió anterior o descarregar-ne una còpia.
 
 ## Provar-ho ara mateix (mode prova)
@@ -88,6 +91,28 @@ el contingut del taulell continua protegit per l'inici de sessió— o publicar-
 
 Per sortir del mode quiosc: `Alt+F4`.
 
+### Que el projector s'apagui i s'engegui sol
+
+La pantalla en negre no apaga el projector: continua encès projectant negre. Per estalviar làmpada i
+no haver-lo d'apagar cada dia, combina-ho així:
+
+1. **Al menú del projector**, activa:
+   - *Apagada automàtica* / *Auto Power Off* / *Sense senyal → standby* (p. ex. al cap de 5–10 minuts sense senyal).
+   - *Encesa automàtica* / *Auto Power On* / *Signal Power On* / *Direct Power On* (s'encén quan rep senyal o corrent).
+     El nom canvia segons la marca; si no hi és, mira el manual del model.
+2. **Al miniordinador (Windows)**, programa que s'adormi en acabar i es desperti abans de començar,
+   amb el *Programador de tasques*:
+   - Tasca «Dormir»: cada dia de dilluns a divendres a les 16:50, acció
+     `rundll32.exe powrprof.dll,SetSuspendState 0,1,0` (abans, a *Opcions d'energia*, desactiva la hibernació
+     amb `powercfg -h off` perquè s'adormi i no hiberni).
+   - Tasca «Despertar»: de dilluns a divendres a les 08:25, marcant *Desperta l'ordinador per executar aquesta tasca*
+     (pestanya *Condicions*); l'acció pot ser simplement obrir el taulell.
+   - A *Opcions d'energia → Configuració avançada → Suspendre → Permet temporitzadors de despertar*: **Activa**.
+
+Quan l'ordinador dorm, el projector deixa de rebre senyal i s'apaga sol; quan es desperta, li torna el senyal
+i s'encén. Si el projector no té encesa automàtica, una alternativa és un endoll programable (amb temporitzador)
+per al projector, sempre que el projector suporti *Direct Power On* (encendre's en rebre corrent).
+
 El taulell es recarrega sol cada matinada a les 5h, ajusta la lletra perquè tot hi càpiga i,
 si cau la connexió, continua mostrant l'últim contingut (amb una petita 📡 a la cantonada).
 
@@ -120,6 +145,7 @@ js/store.js       Desar/carregar (Firebase o mode prova)
 js/state.js       Estat per defecte
 js/modules.js     Definició dels mòduls
 js/programats.js  Avisos programats
+js/horari.js      Horari de projecció
 js/admin.js       Lògica del panell
 js/display.js     Lògica del taulell
 firestore.rules   Qui pot llegir i escriure

@@ -4,6 +4,7 @@ import { normalize } from './state.js';
 import { TYPES } from './modules.js';
 import { h } from './dom.js';
 import { actius, renderOverlay } from './programats.js';
+import { foraHorari } from './horari.js';
 
 const preview = new URLSearchParams(location.search).has('preview');
 const zona = document.getElementById('zona');
@@ -18,7 +19,7 @@ function render(state) {
   cleanups = [];
   const s = state.settings;
   document.body.dataset.theme = s.theme;
-  document.body.classList.toggle('negre', s.negre);
+  aplicaNegre();
 
   const lliure = s.disposicio === 'lliure';
   document.body.classList.toggle('lliure', lliure);
@@ -69,9 +70,24 @@ function updateProgramats() {
   if (!current) return;
   const llista = actius(current.programats);
   if (prova && Date.now() < provaFins) llista.push(prova);
-  renderOverlay(capaProgramats, current.settings.negre ? [] : llista);
+  renderOverlay(capaProgramats, estaEnNegre() ? [] : llista);
 }
-setInterval(updateProgramats, 10e3);
+
+// Pantalla en negre: manual (botó del panell) o automàtica fora de l'horari de projecció.
+// La vista prèvia del panell no segueix l'horari, perquè la mestra pugui editar a qualsevol hora.
+function estaEnNegre() {
+  return current.settings.negre || (!preview && foraHorari(current.settings.horari));
+}
+
+function aplicaNegre() {
+  document.body.classList.toggle('negre', estaEnNegre());
+}
+
+setInterval(() => {
+  if (!current) return;
+  aplicaNegre();
+  updateProgramats();
+}, 10e3);
 
 function placeAt(sec, l) {
   Object.assign(sec.style, { left: `${l.x}%`, top: `${l.y}%`, width: `${l.w}%`, height: `${l.h}%` });

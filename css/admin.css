@@ -205,3 +205,5 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); ou
 .dia-btn { border: 1px solid var(--line); background: #fff; border-radius: 6px; padding: 0.3rem 0.45rem; cursor: pointer; font-size: 0.85rem; }
 .dia-btn.on { background: var(--accent); border-color: var(--accent); color: #fff; }
 .btn.perill:hover { border-color: var(--danger); color: var(--danger); }
+.desactivat { opacity: 0.45; pointer-events: none; }
+#estat-horari { color: var(--fg); }

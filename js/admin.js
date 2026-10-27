@@ -5,6 +5,7 @@ import { TYPES, newModule } from './modules.js';
 import { TAULELL_ID } from './config.js';
 import { h } from './dom.js';
 import { editor as programatsEditor } from './programats.js';
+import { editor as horariEditor, foraHorari } from './horari.js';
 
 const $ = (id) => document.getElementById(id);
 const HIST_KEY = `taulell-historial:${TAULELL_ID}`;
@@ -124,12 +125,23 @@ function renderAll(focusKey = null) {
   $('programats').replaceChildren(programatsEditor(state.programats, { change }, (p) => {
     $('preview').contentWindow?.postMessage({ type: 'taulell-prova', programat: { ...p, text: p.text.trim() || 'Prova d\'avís' } }, location.origin);
   }));
+  $('horari').replaceChildren(horariEditor(state.settings.horari, { change }));
+  renderEstatHorari();
   $('btn-negre').classList.toggle('actiu', state.settings.negre);
   $('btn-negre').textContent = state.settings.negre ? '▶ Tornar a projectar' : '⬛ Pantalla en negre';
   $('ajuda-lliure').hidden = state.settings.disposicio !== 'lliure';
   $('btn-reordenar').hidden = state.settings.disposicio !== 'lliure';
   if (focusKey) document.querySelector(`[data-focus-key="${focusKey}"]`)?.focus();
 }
+
+function renderEstatHorari() {
+  if (!state) return;
+  const negre = state.settings.negre || foraHorari(state.settings.horari);
+  $('estat-horari').textContent = negre
+    ? (state.settings.negre ? 'Ara: en negre (activat a mà).' : 'Ara: en negre (fora d\'horari).')
+    : 'Ara: es projecta.';
+}
+setInterval(renderEstatHorari, 30e3);
 
 function renderModules() {
   const ctx = { change };

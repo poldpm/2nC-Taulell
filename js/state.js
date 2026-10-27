@@ -2,6 +2,7 @@
 import { TYPES, newModule, newTask } from './modules.js';
 import { uid } from './dom.js';
 import { normalizeProgramats } from './programats.js';
+import { DEFAULT_HORARI, normalizeHorari } from './horari.js';
 
 export const DEFAULT_SETTINGS = {
   titol: '2n C',
@@ -16,6 +17,7 @@ export const DEFAULT_SETTINGS = {
   disposicio: 'columna', // columna (automàtica) | lliure (cada mòdul on el posa la mestra)
   lliurePantalla: true, // les posicions lliures són en % de tota la pantalla (abans, de la zona)
   negre: false, // pantalla en negre (no es projecta res)
+  horari: DEFAULT_HORARI, // fora d'aquest horari, pantalla en negre automàtica
 };
 
 export function defaultState() {
@@ -29,7 +31,7 @@ export function defaultState() {
   avis.data.text = 'Bon dia, 2n C! 😊';
   return {
     v: 1,
-    settings: { ...DEFAULT_SETTINGS },
+    settings: { ...DEFAULT_SETTINGS, horari: normalizeHorari() },
     modules: [newModule('rellotge'), avis, tasques],
     programats: [],
   };
@@ -44,6 +46,7 @@ function validLayout(l) {
 export function normalize(raw) {
   if (!raw || typeof raw !== 'object') return defaultState();
   const settings = { ...DEFAULT_SETTINGS, lliurePantalla: false, ...(raw.settings || {}) };
+  settings.horari = normalizeHorari(settings.horari);
   const modules = (Array.isArray(raw.modules) ? raw.modules : [])
     .filter((m) => m && TYPES[m.type])
     .map((m) => {
