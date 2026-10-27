@@ -195,3 +195,13 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); ou
   width: min(94vw, calc((94vh - 7rem) * 16 / 9));
   box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.55);
 }
+
+.programats-card { margin-bottom: 1.2rem; }
+.programat-editor { display: grid; gap: 0.1rem; padding: 0.6rem 0; border-top: 1px solid var(--line); }
+.programat-editor.amagat { opacity: 0.55; }
+.emoji-input { width: 3rem; text-align: center; font-size: 1.2rem; padding: 0.25rem; }
+.num { width: 4.2rem; }
+.dies { display: inline-flex; gap: 0.2rem; }
+.dia-btn { border: 1px solid var(--line); background: #fff; border-radius: 6px; padding: 0.3rem 0.45rem; cursor: pointer; font-size: 0.85rem; }
+.dia-btn.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn.perill:hover { border-color: var(--danger); color: var(--danger); }

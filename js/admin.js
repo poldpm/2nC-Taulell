@@ -4,6 +4,7 @@ import { defaultState, normalize } from './state.js';
 import { TYPES, newModule } from './modules.js';
 import { TAULELL_ID } from './config.js';
 import { h } from './dom.js';
+import { editor as programatsEditor } from './programats.js';
 
 const $ = (id) => document.getElementById(id);
 const HIST_KEY = `taulell-historial:${TAULELL_ID}`;
@@ -120,6 +121,9 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && $('card-
 function renderAll(focusKey = null) {
   renderModules();
   renderSettings();
+  $('programats').replaceChildren(programatsEditor(state.programats, { change }, (p) => {
+    $('preview').contentWindow?.postMessage({ type: 'taulell-prova', programat: { ...p, text: p.text.trim() || 'Prova d\'avís' } }, location.origin);
+  }));
   $('btn-negre').classList.toggle('actiu', state.settings.negre);
   $('btn-negre').textContent = state.settings.negre ? '▶ Tornar a projectar' : '⬛ Pantalla en negre';
   $('ajuda-lliure').hidden = state.settings.disposicio !== 'lliure';

@@ -28,6 +28,10 @@ arrossega cada mòdul a qualsevol lloc de la imatge projectada; estira la canton
 (En aquest mode, posició, amplada, marges i columnes no s'utilitzen: cada mòdul va on el poses.) La lletra de cada mòdul
 s'ajusta sola a la seva caixa. **↺ Recol·locar** els torna a posar un sota l'altre. El botó **⬛ Pantalla en negre** deixa de projectar sense tocar res.
 
+**⏰ Avisos programats:** missatges que surten en gran a sobre del taulell un dia i hora concrets i
+desapareixen sols (p. ex. cada dimarts a les 15:55, «ALANA CAP A PORTERIA!» durant 10 minuts). Poden repetir-se
+cada setmana els dies que triïs o sortir un sol dia; es poden pausar i provar a la vista prèvia.
+
 A *Còpies de seguretat* pots tornar a una versió anterior o descarregar-ne una còpia.
 
 ## Provar-ho ara mateix (mode prova)
@@ -115,6 +119,7 @@ js/config.js      Configuració de Firebase
 js/store.js       Desar/carregar (Firebase o mode prova)
 js/state.js       Estat per defecte
 js/modules.js     Definició dels mòduls
+js/programats.js  Avisos programats
 js/admin.js       Lògica del panell
 js/display.js     Lògica del taulell
 firestore.rules   Qui pot llegir i escriure

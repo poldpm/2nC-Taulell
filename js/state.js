@@ -1,6 +1,7 @@
 // Estat del taulell: valors per defecte i normalització (per tolerar dades antigues o incompletes).
 import { TYPES, newModule, newTask } from './modules.js';
 import { uid } from './dom.js';
+import { normalizeProgramats } from './programats.js';
 
 export const DEFAULT_SETTINGS = {
   titol: '2n C',
@@ -30,6 +31,7 @@ export function defaultState() {
     v: 1,
     settings: { ...DEFAULT_SETTINGS },
     modules: [newModule('rellotge'), avis, tasques],
+    programats: [],
   };
 }
 
@@ -64,7 +66,7 @@ export function normalize(raw) {
     modules.forEach((m) => { if (m.layout) m.layout = zonaToPantalla(m.layout, settings); });
     settings.lliurePantalla = true;
   }
-  return { v: 1, settings, modules };
+  return { v: 1, settings, modules, programats: normalizeProgramats(raw.programats) };
 }
 
 // Converteix una posició guardada en % de la zona (versió antiga) a % de tota la pantalla.

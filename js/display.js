@@ -3,6 +3,7 @@ import { createStore } from './store.js';
 import { normalize } from './state.js';
 import { TYPES } from './modules.js';
 import { h } from './dom.js';
+import { actius, renderOverlay } from './programats.js';
 
 const preview = new URLSearchParams(location.search).has('preview');
 const zona = document.getElementById('zona');
@@ -55,7 +56,22 @@ function render(state) {
   }
   zona.replaceChildren(...[s.titol.trim() && h('header', { class: 'titol' }, s.titol), moduls].filter(Boolean));
   fit();
+  updateProgramats();
 }
+
+// ---------- Avisos programats ----------
+
+const capaProgramats = document.getElementById('programats');
+let provaFins = 0; // a la vista prèvia, "Provar" mostra un avís uns segons
+let prova = null;
+
+function updateProgramats() {
+  if (!current) return;
+  const llista = actius(current.programats);
+  if (prova && Date.now() < provaFins) llista.push(prova);
+  renderOverlay(capaProgramats, current.settings.negre ? [] : llista);
+}
+setInterval(updateProgramats, 10e3);
 
 function placeAt(sec, l) {
   Object.assign(sec.style, { left: `${l.x}%`, top: `${l.y}%`, width: `${l.w}%`, height: `${l.h}%` });
@@ -163,6 +179,12 @@ if (preview) {
   addEventListener('message', (e) => {
     if (e.origin !== location.origin) return;
     if (e.data?.type === 'taulell-state') render(normalize(e.data.state));
+    if (e.data?.type === 'taulell-prova') {
+      prova = e.data.programat;
+      provaFins = Date.now() + 5000;
+      updateProgramats();
+      setTimeout(updateProgramats, 5100);
+    }
     if (e.data?.type === 'taulell-measure') parent.postMessage({ type: 'taulell-measured', layouts: measureLayouts() }, location.origin);
   });
   parent.postMessage({ type: 'taulell-preview-ready' }, location.origin);

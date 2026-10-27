@@ -187,3 +187,34 @@ body[data-theme="clar"] .agenda .avui .nom-dia { color: #a87a00; }
 /* En disposició lliure el títol queda a dalt de tot, sense ocupar espai dels mòduls */
 body.lliure .titol { position: absolute; top: 1vh; left: 0; right: 0; pointer-events: none; }
 body.lliure .moduls.lliure { position: absolute; inset: 0; }
+
+/* Avisos programats: capa a sobre de tot */
+#programats {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-content: center;
+  gap: 4vh;
+  padding: 5vw;
+  background: rgba(0, 0, 0, 0.82);
+  pointer-events: none;
+}
+#programats[hidden] { display: none; }
+.programat {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  background: var(--c);
+  color: #111;
+  font-family: var(--font);
+  font-weight: 700;
+  font-size: 9vh;
+  line-height: 1.1;
+  text-align: center;
+  padding: 0.35em 0.6em;
+  border-radius: 0.3em;
+  animation: batec 1.6s ease-in-out infinite;
+}
+.programat .emoji { font-size: 1.1em; }
+@keyframes batec { 50% { transform: scale(1.04); } }
