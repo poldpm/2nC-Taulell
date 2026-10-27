@@ -69,7 +69,9 @@ export function normalize(raw) {
     modules.forEach((m) => { if (m.layout) m.layout = zonaToPantalla(m.layout, settings); });
     settings.lliurePantalla = true;
   }
-  return { v: 1, settings, modules, programats: normalizeProgramats(raw.programats) };
+  // Prova d'un avís al projector: el taulell el mostra 30 s quan rep un id nou.
+  const prova = raw.prova?.id ? { id: String(raw.prova.id), programat: normalizeProgramats([raw.prova.programat])[0] || null } : null;
+  return { v: 1, settings, modules, programats: normalizeProgramats(raw.programats), prova };
 }
 
 // Converteix una posició guardada en % de la zona (versió antiga) a % de tota la pantalla.

@@ -3,7 +3,7 @@ import { createStore } from './store.js';
 import { defaultState, normalize } from './state.js';
 import { TYPES, newModule } from './modules.js';
 import { TAULELL_ID } from './config.js';
-import { h } from './dom.js';
+import { h, uid } from './dom.js';
 import { editor as programatsEditor } from './programats.js';
 import { editor as horariEditor, foraHorari } from './horari.js';
 
@@ -122,8 +122,12 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && $('card-
 function renderAll(focusKey = null) {
   renderModules();
   renderSettings();
+  const provaDe = (p) => ({ ...p, actiu: true, text: p.text.trim() || 'Prova d\'avís' });
   $('programats').replaceChildren(programatsEditor(state.programats, { change }, (p) => {
-    $('preview').contentWindow?.postMessage({ type: 'taulell-prova', programat: { ...p, text: p.text.trim() || 'Prova d\'avís' } }, location.origin);
+    $('preview').contentWindow?.postMessage({ type: 'taulell-prova', programat: provaDe(p) }, location.origin);
+  }, (p) => {
+    state.prova = { id: uid(), programat: provaDe(p) };
+    change();
   }));
   $('horari').replaceChildren(horariEditor(state.settings.horari, { change }));
   renderEstatHorari();

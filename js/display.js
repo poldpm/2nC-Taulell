@@ -66,11 +66,24 @@ const capaProgramats = document.getElementById('programats');
 let provaFins = 0; // a la vista prèvia, "Provar" mostra un avís uns segons
 let prova = null;
 
+let provaVista; // id de l'última prova enviada des del panell ("Provar al projector")
+
 function updateProgramats() {
   if (!current) return;
-  const llista = actius(current.programats);
-  if (prova && Date.now() < provaFins) llista.push(prova);
-  renderOverlay(capaProgramats, estaEnNegre() ? [] : llista);
+  const remota = current.prova;
+  if (provaVista === undefined) {
+    provaVista = remota?.id ?? null; // en obrir el taulell no es repeteix una prova antiga
+  } else if (remota?.id && remota.id !== provaVista && remota.programat) {
+    provaVista = remota.id;
+    prova = remota.programat;
+    provaFins = Date.now() + 30e3;
+    setTimeout(updateProgramats, 30e3 + 100);
+  }
+  const provant = prova && Date.now() < provaFins;
+  const llista = estaEnNegre() ? [] : actius(current.programats);
+  // Una prova es veu sempre, encara que el taulell estigui en negre.
+  if (provant) llista.push(prova);
+  renderOverlay(capaProgramats, llista);
 }
 
 // Pantalla en negre: manual (botó del panell) o automàtica fora de l'horari de projecció.
@@ -212,6 +225,7 @@ async function start() {
   document.body.classList.add('projector');
   keepAwake();
   scheduleDailyReload();
+  watchUpdates();
   const offline = document.getElementById('offline');
   const updateOnline = () => { offline.hidden = navigator.onLine; };
   addEventListener('online', updateOnline);
@@ -262,7 +276,38 @@ async function keepAwake() {
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') req(); });
 }
 
-// Recarrega la pàgina cada matinada per agafar actualitzacions de l'app.
+// Actualització automàtica: cada 5 minuts comprova si s'ha publicat una versió nova de l'app
+// (comparant el contingut dels fitxers que fa servir la pàgina) i, si és així, es recarrega.
+const FITXERS_APP = ['taulell.html', 'css/taulell.css', 'js/display.js', 'js/store.js', 'js/state.js', 'js/modules.js',
+  'js/dom.js', 'js/programats.js', 'js/horari.js', 'js/config.js'];
+
+async function versioApp() {
+  const urls = new Set(FITXERS_APP.map((f) => new URL(f, location.href).pathname));
+  for (const e of performance.getEntriesByType('resource')) {
+    const u = new URL(e.name);
+    if (u.origin === location.origin && !u.pathname.startsWith('/__')) urls.add(u.pathname);
+  }
+  const textos = await Promise.all([...urls].sort().map((u) => fetch(u, { cache: 'no-store' }).then((r) => (r.ok ? r.text() : ''))));
+  let hash = 0;
+  for (const t of textos) for (let i = 0; i < t.length; i++) hash = (hash * 31 + t.charCodeAt(i)) | 0;
+  return hash;
+}
+
+function watchUpdates() {
+  let inicial = null;
+  const check = async () => {
+    if (!navigator.onLine) return;
+    try {
+      const v = await versioApp();
+      if (inicial === null) inicial = v;
+      else if (v !== inicial) location.reload();
+    } catch { /* sense xarxa: ja ho provarem */ }
+  };
+  setTimeout(check, 20e3);
+  setInterval(check, 5 * 60e3);
+}
+
+// Recarrega la pàgina cada matinada (per si de cas).
 function scheduleDailyReload() {
   const loadedAt = Date.now();
   setInterval(() => {

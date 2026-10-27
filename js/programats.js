@@ -45,7 +45,7 @@ export function renderOverlay(el, list) {
 }
 
 // Editor al panell de control.
-export function editor(list, ctx, onTest) {
+export function editor(list, ctx, onTest, onProjecta) {
   return h('div', { class: 'stack' },
     list.length ? null : h('p', { class: 'ajuda' }, 'Encara no n\'hi ha cap. Per exemple: cada dimarts a les 15:55, «ALANA CAP A PORTERIA!».'),
     list.map((p, i) => h('div', { class: 'programat-editor' + (p.actiu ? '' : ' amagat') },
@@ -73,6 +73,7 @@ export function editor(list, ctx, onTest) {
       ),
       h('div', { class: 'row' },
         h('button', { class: 'btn petit', onclick: () => onTest(p) }, '▶ Provar a la vista prèvia'),
+        h('button', { class: 'btn petit', title: 'Es veu al projector durant 30 segons', onclick: () => onProjecta(p) }, '📽️ Provar al projector'),
         h('button', { class: 'btn petit', onclick: () => { p.actiu = !p.actiu; ctx.change(true); } }, p.actiu ? '⏸ Pausar' : '▶ Activar'),
         h('button', {
           class: 'btn petit perill', onclick: () => {

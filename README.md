@@ -30,7 +30,8 @@ s'ajusta sola a la seva caixa. **↺ Recol·locar** els torna a posar un sota l'
 
 **⏰ Avisos programats:** missatges que surten en gran a sobre del taulell un dia i hora concrets i
 desapareixen sols (p. ex. cada dimarts a les 15:55, «ALANA CAP A PORTERIA!» durant 10 minuts). Poden repetir-se
-cada setmana els dies que triïs o sortir un sol dia; es poden pausar i provar a la vista prèvia.
+cada setmana els dies que triïs o sortir un sol dia; es poden pausar, provar a la vista prèvia o
+**📽️ provar al projector** (es veu 30 segons al taulell de veritat).
 
 **🕗 Horari de projecció:** fora de l'horari (per defecte, de dilluns a divendres de 08:30 a 16:45) el taulell
 es posa en negre sol, i els caps de setmana es queda en negre. Es pot canviar o desactivar des del panell.
@@ -127,7 +128,7 @@ Quan l'ordinador dorm, el projector deixa de rebre senyal i s'apaga sol; quan es
 i s'encén. Si el projector no té encesa automàtica, una alternativa és un endoll programable (amb temporitzador)
 per al projector, sempre que el projector suporti *Direct Power On* (encendre's en rebre corrent).
 
-El taulell es recarrega sol cada matinada a les 5h, ajusta la lletra perquè tot hi càpiga i,
+Quan es publica una versió nova de l'app, el taulell la detecta i es recarrega sol en pocs minuts. També es recarrega cada matinada a les 5h, ajusta la lletra perquè tot hi càpiga i,
 si cau la connexió, continua mostrant l'últim contingut (amb una petita 📡 a la cantonada).
 
 ## Instal·lar-ho com a aplicació
