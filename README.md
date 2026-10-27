@@ -109,6 +109,20 @@ no haver-lo d'apagar cada dia, combina-ho així:
      (pestanya *Condicions*); l'acció pot ser simplement obrir el taulell.
    - A *Opcions d'energia → Configuració avançada → Suspendre → Permet temporitzadors de despertar*: **Activa**.
 
+#### Epson EB-475Wi (el projector de 2n C)
+
+Botó **Menu** → **Ampliado/Extended** → **Funcionament/Operation**:
+
+- **Mode de repòs / Sleep Mode** → *Activat*, i **Temporitzador / Sleep Mode Timer** → *5 min*:
+  s'apaga sol quan fa 5 minuts que no rep senyal.
+- **Encesa directa / Direct Power On** → *Activat*: s'encén sol quan li arriba corrent.
+
+Com que aquest model no s'encén sol en rebre senyal, per encendre'l sense tocar-lo cal un **endoll
+programable** (de temporitzador o wifi) entre la presa i el projector: corrent de dilluns a divendres de 08:20
+a 17:15. Cronologia d'un dia: 08:20 arriba corrent → s'encén · 08:25 es desperta el miniordinador → projecta ·
+16:45 el taulell es posa en negre · 16:50 l'ordinador s'adorm → 16:55 el projector passa a repòs i es refreda ·
+17:15 l'endoll talla el corrent (amb el projector ja apagat i fred). No talleu mai el corrent amb la làmpada encesa.
+
 Quan l'ordinador dorm, el projector deixa de rebre senyal i s'apaga sol; quan es desperta, li torna el senyal
 i s'encén. Si el projector no té encesa automàtica, una alternativa és un endoll programable (amb temporitzador)
 per al projector, sempre que el projector suporti *Direct Power On* (encendre's en rebre corrent).
