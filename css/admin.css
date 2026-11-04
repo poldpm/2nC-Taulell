@@ -207,3 +207,10 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); ou
 .btn.perill:hover { border-color: var(--danger); color: var(--danger); }
 .desactivat { opacity: 0.45; pointer-events: none; }
 #estat-horari { color: var(--fg); }
+.compte { margin: 0.3rem 0 0; font-size: 0.9rem; color: var(--muted); }
+.compte.futur { color: var(--fg); }
+.compte.ara { color: var(--ok); font-weight: 700; }
+.compte.mai { color: var(--danger); }
+.btn.actiu-avui { background: var(--accent); border-color: var(--accent); color: #fff; }
+.hora-select { display: inline-flex; align-items: center; gap: 0.15rem; font-variant-numeric: tabular-nums; }
+.hora-select select { padding-inline: 0.35rem; }

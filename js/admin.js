@@ -4,7 +4,7 @@ import { defaultState, normalize } from './state.js';
 import { TYPES, newModule } from './modules.js';
 import { TAULELL_ID } from './config.js';
 import { h, uid } from './dom.js';
-import { editor as programatsEditor } from './programats.js';
+import { editor as programatsEditor, actualitzaComptes } from './programats.js';
 import { editor as horariEditor, foraHorari } from './horari.js';
 
 const $ = (id) => document.getElementById(id);
@@ -128,7 +128,7 @@ function renderAll(focusKey = null) {
   }, (p) => {
     state.prova = { id: uid(), programat: provaDe(p) };
     change();
-  }));
+  }, state.settings));
   $('horari').replaceChildren(horariEditor(state.settings.horari, { change }));
   renderEstatHorari();
   $('btn-negre').classList.toggle('actiu', state.settings.negre);
@@ -146,6 +146,7 @@ function renderEstatHorari() {
     : 'Ara: es projecta.';
 }
 setInterval(renderEstatHorari, 30e3);
+setInterval(() => { if (state) actualitzaComptes($('programats'), state.programats, state.settings); }, 30e3);
 
 function renderModules() {
   const ctx = { change };

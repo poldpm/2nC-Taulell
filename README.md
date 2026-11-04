@@ -31,7 +31,8 @@ s'ajusta sola a la seva caixa. **↺ Recol·locar** els torna a posar un sota l'
 **⏰ Avisos programats:** missatges que surten en gran a sobre del taulell un dia i hora concrets i
 desapareixen sols (p. ex. cada dimarts a les 15:55, «ALANA CAP A PORTERIA!» durant 10 minuts). Poden repetir-se
 cada setmana els dies que triïs o sortir un sol dia; es poden pausar, provar a la vista prèvia o
-**📽️ provar al projector** (es veu 30 segons al taulell de veritat).
+**📽️ provar al projector** (es veu 30 segons al taulell de veritat). El botó **📅 Només avui** el deixa només per al dia d'avui,
+i cada avís diu quant falta perquè soni («Sonarà d'aquí 2 dies, 3 hores i 5 minuts»), o per què no sonarà.
 
 **🕗 Horari de projecció:** fora de l'horari (per defecte, de dilluns a divendres de 08:30 a 16:45) el taulell
 es posa en negre sol, i els caps de setmana es queda en negre. Es pot canviar o desactivar des del panell.

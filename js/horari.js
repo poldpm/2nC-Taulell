@@ -1,5 +1,5 @@
 // Horari de projecció: fora d'aquestes hores (i els dies no marcats) el taulell es posa en negre sol.
-import { h } from './dom.js';
+import { h, horaSelect } from './dom.js';
 
 const DIES = [[1, 'Dl'], [2, 'Dt'], [3, 'Dc'], [4, 'Dj'], [5, 'Dv'], [6, 'Ds'], [0, 'Dg']];
 
@@ -33,9 +33,9 @@ export function editor(horari, ctx) {
         onclick: () => { horari.dies = horari.dies.includes(v) ? horari.dies.filter((x) => x !== v) : [...horari.dies, v]; ctx.change(true); },
       }, nom))),
       h('label', { class: 'check' }, 'de',
-        h('input', { type: 'time', value: horari.inici, onchange: (e) => { if (e.target.value) { horari.inici = e.target.value; ctx.change(true); } } })),
+        horaSelect(horari.inici, (v) => { horari.inici = v; ctx.change(true); })),
       h('label', { class: 'check' }, 'a',
-        h('input', { type: 'time', value: horari.fi, onchange: (e) => { if (e.target.value) { horari.fi = e.target.value; ctx.change(true); } } })),
+        horaSelect(horari.fi, (v) => { horari.fi = v; ctx.change(true); })),
     ),
   );
 }

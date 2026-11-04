@@ -17,3 +17,19 @@ export function h(tag, props = {}, ...children) {
 }
 
 export const uid = () => Math.random().toString(36).slice(2, 10);
+
+// Selector d'hora en format 24 h amb dos desplegables (hores i minuts). Evita que el navegador
+// interpreti l'hora en format a.m./p.m. segons la configuració de l'ordinador.
+export function horaSelect(value, onChange) {
+  const [hh, mm] = (value || '09:00').split(':');
+  const opcions = (n, sel) => Array.from({ length: n }, (_, i) => {
+    const v = String(i).padStart(2, '0');
+    return h('option', { value: v, selected: v === sel }, v);
+  });
+  const hores = h('select', { class: 'hora-h', title: 'Hora' }, opcions(24, hh));
+  const minuts = h('select', { class: 'hora-m', title: 'Minuts' }, opcions(60, mm));
+  const avisa = () => onChange(`${hores.value}:${minuts.value}`);
+  hores.addEventListener('change', avisa);
+  minuts.addEventListener('change', avisa);
+  return h('span', { class: 'hora-select' }, hores, ':', minuts);
+}
